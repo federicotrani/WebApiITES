@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DemoWebAPi.Data;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DemoWebAPi.Controllers;
@@ -7,10 +8,17 @@ namespace DemoWebAPi.Controllers;
 [ApiController]
 public class CategoriasController : ControllerBase
 {
+    private readonly DataContext dataContext;
+
+    public CategoriasController(DataContext dataContext)
+    {
+        this.dataContext = dataContext;
+    }
+
     [HttpGet]
     public IActionResult Get()
     {
-        var categorias = new List<string> { "Categoria 1", "Categoria 2", "Categoria 3" };
+        var categorias = dataContext.Categorias.ToList();
         return Ok(categorias);
     }
 }
